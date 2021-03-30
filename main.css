@@ -6,3 +6,9 @@
 p{
     margin:0;
 }
+.on{
+    display:none;
+}
+.off{
+    display: inline-block;
+}

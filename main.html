@@ -4,7 +4,21 @@
     <link href="main.css" rel="stylesheet">
 </head>
 <body>
-    <button class="info-att-bt">공격하기</button>
+    <div class="status">
+        <div class="status-title">Name:</div>
+        <div class="status-name"></div>
+        <div class="status-title">Level:</div>
+        <div class="status-level"></div>
+    </div>
+    <div class="stayMenu">
+        <button class="dun-go" id="dun_go">탐험하기</button>
+        <button class="dun-rest" id="dun_rest">휴식하기</button>
+    </div>
+    <div class="battleMenu">
+        <button class="info-att-bt">공격하기</button>
+        <button class="info-heal-bt">회복하기</button>
+        <button class="info-escape-bt">도망가기</button>
+    </div>
     <div class="info-log" id="log"></div>
     <script src="main.js"></script>
 </body>
