@@ -13,8 +13,10 @@ var log = function(msg,color){
 }
 
 //랜덤값 생성함수
-var getRandom = function(){
-    
+var getRandom = function(min,max){
+    var min = Math.ceil(min||0);
+    var max = Math.floor(max||100);
+    return Math.floor(Math.random()*(max-min+1))+min;
 }
 
 //디스플레이 편리하게 on/off
@@ -48,6 +50,7 @@ var battleTick = function(){
     }
 }
 
+//캐릭터 생성기
 var Character = function(name,hp,att,def,spd){
     this.name = name||"player";
     this.hp = hp||100;
@@ -56,12 +59,15 @@ var Character = function(name,hp,att,def,spd){
     this.spd = spd||1;
 }
 
-var monsterMaker = function(){
+//몬스터 생성기
+var monsterMaker = function(minlv,maxlv){
     var mon = new Character();
-    mon.name = monsterList[0][0];
-    mon.hp = monsterList[0][1];
-    mon.att = monsterList[0][2];
-    mon.def = monsterList[0][3];
-    mon.spd = monsterList[0][4];
+    var infomon = getRandom(minlv,maxlv);
+    var randommon = getRandom(minlv,maxlv);
+    mon.name = monsterList[infomon][0];
+    mon.hp = monsterList[infomon][1];
+    mon.att = monsterList[infomon][2];
+    mon.def = monsterList[infomon][3];
+    mon.spd = monsterList[infomon][4];
 
 }
