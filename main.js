@@ -1,9 +1,11 @@
 const display = document.getElementById("log");
 const stayMenu = document.querySelector('.stayMenu');
 const battleMenu = document.querySelector('.battleMenu');
+const dun_floor = document.querySelector('.dun_floor');
 
 var battleMaster = false;
 var battleFloor = 1;
+var battleFloorNow = 1;
 
 //로그창
 var log = function(msg,color){
@@ -36,6 +38,14 @@ var command = {
         },
         on:function(){
             stayMenu.classList.remove("on");
+        },
+        floor:{
+            off:function(){
+                dun_floor.classList.add("on");
+            },
+            on:function(){
+                dun_floor.classList.remove("on");
+            }
         }
     }
 }
@@ -43,8 +53,14 @@ var command = {
 //배틀인지 아닌지 판단해서 버튼조정
 var battleTick = function(){
     if(battleMaster==false){
+        command.stay.floor.off();
         command.battle.off();
         command.stay.on();
+        if(battleFloor>battleFloorNow){
+            command.stay.floor.on();
+        }else{
+            command.stay.floor.off();
+        }
     }else if(battleMaster==true){
         command.battle.on();
         command.stay.off();
@@ -102,6 +118,14 @@ var monsterMaker = function(minlv,maxlv){
     mon.def = monsterList[infomon][4];
     mon.spd = monsterList[infomon][5];
     mon.lv = monlv;
+    monsterlevelUpVal(mon.lv);
+    return mon;
+}
+
+//층수별로 몬스터 난이도 결정하기
+var monapp = function(floor){
+    var floor = floor;
+    monsterMaker(floor-4,floor+2)
 }
 
 //공격메소드
@@ -148,7 +172,10 @@ document.getElementById("dun_go").addEventListener('click',function(){
     log(char.name+"이(가) 던전으로 들어간다..");
     setTimeout(function(){
         if(getRandom()>=25){
+            battleMaster = true;
+            battleTick();
             log("몬스터가 나타났다.")
+            monapp(battleFloor);
         }else{
             log("몬스터가 나타나지 않았다.")
         }
@@ -173,6 +200,11 @@ document.getElementById("battle_heal").addEventListener('click',function(){
 
 //도망가기
 document.getElementById("battle_escape").addEventListener('click',function(){
+
+});
+
+//내려가기
+document.getElementById("dun_floor").addEventListener('click',function(){
 
 });
 
