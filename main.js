@@ -12,6 +12,11 @@ var log = function(msg,color){
     display.prepend(info_log);
 }
 
+//랜덤값 생성함수
+var getRandom = function(){
+    
+}
+
 //디스플레이 편리하게 on/off
 var command = {
     battle:{
@@ -41,4 +46,22 @@ var battleTick = function(){
         command.battle.on();
         command.stay.off();
     }
+}
+
+var Character = function(name,hp,att,def,spd){
+    this.name = name||"player";
+    this.hp = hp||100;
+    this.att = att||5;
+    this.def = def||5;
+    this.spd = spd||1;
+}
+
+var monsterMaker = function(){
+    var mon = new Character();
+    mon.name = monsterList[0][0];
+    mon.hp = monsterList[0][1];
+    mon.att = monsterList[0][2];
+    mon.def = monsterList[0][3];
+    mon.spd = monsterList[0][4];
+
 }
