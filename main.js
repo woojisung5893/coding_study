@@ -1,11 +1,11 @@
 const display = document.getElementById("log");
 const stayMenu = document.querySelector('.stayMenu');
 const battleMenu = document.querySelector('.battleMenu');
-const dun_floor = document.querySelector('.dun_floor');
+const dun_floor = document.querySelector('.stayMenu-floor');
 
 var battleMaster = false;
-var battleFloor = 1;
-var battleFloorNow = 1;
+var battleFloor = 1;    //내려갈수 있는 층 수
+var battleFloorNow = 1; //현재 내가있는 층 수
 
 //로그창
 var log = function(msg,color){
@@ -53,7 +53,6 @@ var command = {
 //배틀인지 아닌지 판단해서 버튼조정
 var battleTick = function(){
     if(battleMaster==false){
-        command.stay.floor.off();
         command.battle.off();
         command.stay.on();
         if(battleFloor>battleFloorNow){
@@ -92,7 +91,7 @@ var monsterlevelUpVal = function(lv){
     mon.att += attVal;
     mon.def += defVal;
     mon.spd += spdVal;
-    mon.hp = maxHp;
+    mon.hp = mon.maxHp;
 }
 
 //캐릭터 생성기
@@ -105,6 +104,10 @@ var Character = function(name,hp,maxHp,att,def,spd,lv){
     this.spd = spd||1;
     this.lv = lv||1;
 }
+
+var char = new Character();
+var mon = new Character();
+
 
 //몬스터 생성기
 var monsterMaker = function(minlv,maxlv){
@@ -157,7 +160,6 @@ Character.prototype.rest = function(){
 
 
 
-var char = new Character();
 
 //게임시작
 var gameStart = function(){
@@ -172,10 +174,10 @@ document.getElementById("dun_go").addEventListener('click',function(){
     log(char.name+"이(가) 던전으로 들어간다..");
     setTimeout(function(){
         if(getRandom()>=25){
+            monsterMaker(battleFloorNow-4,battleFloorNow+2);
             battleMaster = true;
             battleTick();
             log("몬스터가 나타났다.")
-            monapp(battleFloor);
         }else{
             log("몬스터가 나타나지 않았다.")
         }
@@ -190,7 +192,8 @@ document.getElementById("dun_rest").addEventListener('click',function(){
 
 //공격하기
 document.getElementById("battle_att").addEventListener('click',function(){
-
+    char.attack(mon);
+    mon.attack(char);
 });
 
 //회복하기
