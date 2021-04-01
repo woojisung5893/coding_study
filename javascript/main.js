@@ -86,7 +86,8 @@ var monsterlevelUpVal = function(lv){
     var attVal = 2;
     var defVal = 3;
     var spdVal = 2;
-    mon.lv++;
+    var lvVal = 1;
+    mon.lv += lvVal;
     mon.maxHp += hpVal;
     mon.att += attVal;
     mon.def += defVal;
@@ -106,7 +107,6 @@ var Character = function(name,hp,maxHp,att,def,spd,lv){
 }
 
 var char = new Character();
-var mon = new Character();
 
 
 //몬스터 생성기
@@ -121,14 +121,15 @@ var monsterMaker = function(minlv,maxlv){
     mon.def = monsterList[infomon][4];
     mon.spd = monsterList[infomon][5];
     mon.lv = monlv;
-    monsterlevelUpVal(mon.lv);
+    
     return mon;
 }
 
 //층수별로 몬스터 난이도 결정하기
 var monapp = function(floor){
     var floor = floor;
-    monsterMaker(floor-4,floor+2)
+    monsterMaker(floor,floor+2);
+    monsterlevelUpVal(mon.lv);
 }
 
 //공격메소드
@@ -174,7 +175,7 @@ document.getElementById("dun_go").addEventListener('click',function(){
     log(char.name+"이(가) 던전으로 들어간다..");
     setTimeout(function(){
         if(getRandom()>=25){
-            monsterMaker(battleFloorNow-4,battleFloorNow+2);
+            monapp(battleFloorNow);
             battleMaster = true;
             battleTick();
             log("몬스터가 나타났다.")
