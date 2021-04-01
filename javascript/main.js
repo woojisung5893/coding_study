@@ -66,37 +66,7 @@ var battleTick = function(){
     }
 }
 
-//레벨당 스텟계산기(캐릭터)
-var charlevelUpVal = function(lv){
-    var hpVal = 5;
-    var attVal = 2;
-    var defVal = 3;
-    var spdVal = 2;
-    char.lv++;
-    char.maxHp += hpVal;
-    char.att += attVal;
-    char.def += defVal;
-    char.spd += spdVal;
-    char.hp = maxHp;
-}
-
-//레벨당 스텟계산기(몬스터)
-var monsterlevelUpVal = function(lv){
-    var hpVal = 5;
-    var attVal = 2;
-    var defVal = 3;
-    var spdVal = 2;
-    var lvVal = 1;
-    mon.lv += lvVal;
-    mon.maxHp += hpVal;
-    mon.att += attVal;
-    mon.def += defVal;
-    mon.spd += spdVal;
-    mon.hp = mon.maxHp;
-}
-
-//캐릭터 생성기
-var Character = function(name,hp,maxHp,att,def,spd,lv){
+var Charater = function(name,hp,maxHp,att,def,spd,lv){
     this.name = name||"player";
     this.hp = hp||100;
     this.maxHp = maxHp||100;
@@ -106,85 +76,14 @@ var Character = function(name,hp,maxHp,att,def,spd,lv){
     this.lv = lv||1;
 }
 
-var char = new Character();
-
-
-//몬스터 생성기
-var monsterMaker = function(minlv,maxlv){
-    var mon = new Character();
-    var infomon = getRandom(0,monsterList.length-1);
-    var monlv = getRandom(minlv,maxlv);
-    mon.name = monsterList[infomon][0];
-    mon.hp = monsterList[infomon][1];
-    mon.maxHp = monsterList[infomon][2];
-    mon.att = monsterList[infomon][3];
-    mon.def = monsterList[infomon][4];
-    mon.spd = monsterList[infomon][5];
-    mon.lv = monlv;
-    
-    return mon;
+Charater.prototype.attack = function(targret){
+    var target = target;
 }
 
-//층수별로 몬스터 난이도 결정하기
-var monapp = function(floor){
-    var floor = floor;
-    monsterMaker(floor,floor+2);
-    monsterlevelUpVal(mon.lv);
-}
-
-//공격메소드
-Character.prototype.attack = function(target){
-    log(this.name+"이(가)"+target.name+"를(을)"+this.att+"만큼 데미지를 주었다.("+target.name+"의 체력:"+target.hp+")");
-    target.hp -= this.att;
-    if(char.hp<=0){
-        log("패배했습니다.");
-        
-    }else if(mon.hp<=0){
-        log("이겼습니다.");
-    }
-}
-
-//회복메소드
-Character.prototype.heal = function(){
-
-}
-
-//도망메소드
-Character.prototype.escape = function(){
-
-}
-
-//휴식메소드
-Character.prototype.rest = function(){
-
-}
+var player = new Charater();
+var monster = new Charater();
 
 
-
-
-//게임시작
-var gameStart = function(){
-    battleTick();
-    log("게임이 시작되었습니다.");
-    
-}
-
-//버튼 누르면 시작하는 구간
-//탐험하기
-document.getElementById("dun_go").addEventListener('click',function(){
-    log(char.name+"이(가) 던전으로 들어간다..");
-    setTimeout(function(){
-        if(getRandom()>=25){
-            monapp(battleFloorNow);
-            battleMaster = true;
-            battleTick();
-            log("몬스터가 나타났다.")
-        }else{
-            log("몬스터가 나타나지 않았다.")
-        }
-    },1000);
-
-});
 
 //휴식하기
 document.getElementById("dun_rest").addEventListener('click',function(){
@@ -193,8 +92,7 @@ document.getElementById("dun_rest").addEventListener('click',function(){
 
 //공격하기
 document.getElementById("battle_att").addEventListener('click',function(){
-    char.attack(mon);
-    mon.attack(char);
+
 });
 
 //회복하기
@@ -211,5 +109,3 @@ document.getElementById("battle_escape").addEventListener('click',function(){
 document.getElementById("dun_floor").addEventListener('click',function(){
 
 });
-
-gameStart();
