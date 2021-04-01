@@ -80,13 +80,25 @@ Charater.prototype.attack = function(targret){
     var target = target;
 }
 
+Charater.prototype.heal = function(target){
+
+}
+
 var player = new Charater();
 var monster = new Charater();
 
+//탐험하기
+document.getElementById("dun_go").addEventListener('click',function(){
 
+});
 
 //휴식하기
 document.getElementById("dun_rest").addEventListener('click',function(){
+
+});
+
+//내려가기
+document.getElementById("dun_floor").addEventListener('click',function(){
 
 });
 
@@ -102,10 +114,5 @@ document.getElementById("battle_heal").addEventListener('click',function(){
 
 //도망가기
 document.getElementById("battle_escape").addEventListener('click',function(){
-
-});
-
-//내려가기
-document.getElementById("dun_floor").addEventListener('click',function(){
 
 });
