@@ -66,7 +66,7 @@ var battleTick = function(){
     }
 }
 
-var Charater = function(name,hp,maxHp,att,def,spd,lv){
+var Charater = function(name,hp,maxHp,att,def,spd,lv,exp,maxExp,luk){
     this.name = name||"player";
     this.hp = hp||100;
     this.maxHp = maxHp||100;
@@ -74,22 +74,83 @@ var Charater = function(name,hp,maxHp,att,def,spd,lv){
     this.def = def||5;
     this.spd = spd||1;
     this.lv = lv||1;
+    this.exp = exp||0;
+    this.maxExp = maxExp||0;
 }
 
-Charater.prototype.attack = function(targret){
-    var target = target;
-}
-
-Charater.prototype.heal = function(target){
-
-}
 
 var player = new Charater();
 var monster = new Charater();
+Charater.prototype.attack = function(target){
+    var target = target;
+    target.hp = target.hp - this.att;
+    log(this.name+"이(가)"+target.name+"을(를) "+this.att+"의 만큼 데미지 입혔다!("+target.name+"의 HP:"+target.hp+")");
+}
+
+Charater.prototype.heal = function(target){
+    var target = target;
+
+}
+
+var monsterMaker = function(){
+    var info_monrandom = getRandom(0,(monsterList.length-1));
+    monster.name = monsterList[info_monrandom][0];
+    monster.hp = monsterList[info_monrandom][1];
+    monster.maxHp = monsterList[info_monrandom][2];
+    monster.att = monsterList[info_monrandom][3];
+    monster.def = monsterList[info_monrandom][4];
+    monster.spd = monsterList[info_monrandom][5];
+    monster.lv = monsterList[info_monrandom][6];
+
+}
+
+var infostatus = function(){
+    var info_name = document.getElementById("status_name");
+    var info_level = document.getElementById("status_level");
+    var info_exp = document.getElementById("status_exp");
+    var info_hp = document.getElementById("status_hp");
+    info_name.innerHTML = player.name;
+    info_level.innerHTML = player.lv;
+    info_exp.innerHTML = player.exp+"/"+player.maxExp;
+    info_hp.innerHTML = player.hp+"/"+player.maxHp;
+}
+
+var gameStart = function(){
+    player.name = prompt("플레이어의 이름을 지정해주세요");
+    battleTick();
+    infostatus();
+    log("게임이 시작되었습니다.");
+    setTimeout(() => {
+        log("몬스터 타워에 입장하였습니다.( 현재층:"+battleFloorNow+"층)");
+    }, 1000);
+    
+}
+
+gameStart();
 
 //탐험하기
 document.getElementById("dun_go").addEventListener('click',function(){
-
+    log("던전을 돌아다니는중...");
+    setTimeout(function(){
+        if(getRandom()>25){
+            log("몬스터가 나타났다!!");
+            battleMaster = true;
+            monsterMaker();
+            battleTick();
+            setTimeout(
+                function(){
+                    if(getRandom()>50){
+                        log("내가 먼저 공격한다!");
+                        player.attack(monster);
+                    }else{
+                        log("적이 먼저 기습했다!");
+                        monster.attack(player);
+                    }
+                },1000)
+        }else{
+            log("몬스터가 나타나지 않았다..");
+        }
+    },1000)
 });
 
 //휴식하기
@@ -104,7 +165,7 @@ document.getElementById("dun_floor").addEventListener('click',function(){
 
 //공격하기
 document.getElementById("battle_att").addEventListener('click',function(){
-
+    player.attack(monster);
 });
 
 //회복하기

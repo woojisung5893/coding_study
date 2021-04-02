@@ -5,10 +5,42 @@
 }
 p{
     margin:0;
+    font-size: 20px;
+    font-family: cursive;
+    animation-name: logEvent;
+    animation-duration: normal;
+    animation-delay: 0ms;
+    animation-iteration-count: 1;
+    animation-play-state: running;
+    animation-direction: ease_in_out;
+    -webkit-animation-name: logEvent;
+    -webkit-animation-duration: normal;
+    -webkit-animation-delay: 0ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-play-state: running;
+    -webkit-animation-direction: ease_in_out;
 }
 .on{
     display:none;
 }
 .off{
     display: inline-block;
+}
+@keyframes logEvent {
+    0%{
+        font-size: 35px;
+    }
+    100%{
+        font-size: 16px;
+    }
+
+}
+@-webkit-keyframes logEvent {
+    0%{
+        font-size: 35px;
+    }
+    100%{
+        font-size: 16px;
+    }
+
 }
